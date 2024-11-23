@@ -9,6 +9,10 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -50,7 +54,7 @@ public class QuizActivity extends AppCompatActivity {
         gameType = intent.getStringExtra("GAME_TYPE");
 
         // อ้างอิง Firebase Database
-        databaseReference = FirebaseDatabase.getInstance().getReference("questions").child(gameType);
+        databaseReference = FirebaseDatabase.getInstance().getReference("quizzes").child(gameType).child("questions");
 
         // ดึงข้อมูลคำถามจาก Firebase
         fetchQuestionsFromFirebase();
@@ -87,24 +91,41 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void fetchQuestionsFromFirebase() {
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Question question = snapshot.getValue(Question.class);
-                    questionList.add(question);
-                }
-                userAnswers = new int[questionList.size()]; // เตรียมอาร์เรย์เก็บคำตอบ
-                displayQuestion(); // แสดงคำถามแรก
-            }
+        // ใช้ ExecutorService เพื่อรันใน Background Thread
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> {
+            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    List<Question> tempList = new ArrayList<>();
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        Question question = snapshot.getValue(Question.class);
+                        if (question != null) {
+                            tempList.add(question);
+                        }
+                    }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(QuizActivity.this, "Failed to load questions.", Toast.LENGTH_SHORT).show();
-                Log.e("QuizActivity", "Error fetching questions", databaseError.toException());
-            }
+                    runOnUiThread(() -> {
+                        questionList.clear();
+                        questionList.addAll(tempList);
+                        userAnswers = new int[questionList.size()];
+                        displayQuestion();
+                    });
+
+                    Log.d("QuizActivity", "Questions loaded: " + questionList.size());
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    runOnUiThread(() -> {
+                        Toast.makeText(QuizActivity.this, "Failed to load questions.", Toast.LENGTH_SHORT).show();
+                    });
+                    Log.e("QuizActivity", "Error fetching questions", databaseError.toException());
+                }
+            });
         });
     }
+
 
     private void displayQuestion() {
         Question question = questionList.get(currentQuestionIndex);

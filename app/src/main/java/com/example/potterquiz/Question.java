@@ -1,15 +1,17 @@
 package com.example.potterquiz;
 
 public class Question {
-    private String questionText;
-    private String[] options;
-    private int correctAnswerIndex;
+    private String questionText;  // คำถาม
+    private String[] options;     // ช้อยส์คำตอบ
 
-    public Question(String questionText, String[] options, int correctAnswerIndex) {
+    // Constructor ที่ไม่มี correctAnswerIndex
+    public Question(String questionText, String[] options) {
         this.questionText = questionText;
         this.options = options;
-        this.correctAnswerIndex = correctAnswerIndex;
     }
+
+    // Default constructor สำหรับ Firebase
+    public Question() {}
 
     public String getQuestionText() {
         return questionText;
@@ -18,9 +20,4 @@ public class Question {
     public String[] getOptions() {
         return options;
     }
-
-    public int getCorrectAnswerIndex() {
-        return correctAnswerIndex;
-    }
-
 }
