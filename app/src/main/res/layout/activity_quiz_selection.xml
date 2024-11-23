@@ -1,0 +1,44 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@drawable/background_image">
+
+    <Button
+        android:id="@+id/housesButton"
+        android:layout_width="250dp"
+        android:layout_height="80dp"
+        android:text="Hogwart Houses"
+        android:layout_margin="16dp"
+        android:backgroundTint="#65FFFFFF"
+    android:textColor="#000000"
+    android:fontFamily="@font/custom_font"
+    android:textSize="36sp"
+    android:gravity="center" />
+
+    <Button
+        android:id="@+id/patronusButton"
+        android:layout_width="250dp"
+        android:layout_height="80dp"
+        android:text="Patronus Charm"
+        android:layout_margin="16dp"
+        android:backgroundTint="#66FAFAFA"
+        android:textColor="#000000"
+        android:fontFamily="@font/custom_font"
+        android:textSize="36sp"
+        android:gravity="center" />
+
+    <Button
+        android:id="@+id/characterButton"
+        android:layout_width="250dp"
+        android:layout_height="80dp"
+        android:text="Character"
+        android:layout_margin="16dp"
+        android:backgroundTint="#66FFFFFF"
+        android:textColor="#000000"
+        android:fontFamily="@font/custom_font"
+        android:textSize="40sp"
+        android:gravity="center" />
+
+</LinearLayout>
