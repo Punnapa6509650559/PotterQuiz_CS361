@@ -1,23 +1,25 @@
 package com.example.potterquiz;
 
-public class Question {
-    private String questionText;  // คำถาม
-    private String[] options;     // ช้อยส์คำตอบ
+import java.util.List;
 
-    // Constructor ที่ไม่มี correctAnswerIndex
-    public Question(String questionText, String[] options) {
+public class Question {
+    private String questionText;
+    private List<String> options;
+
+    public Question() {
+        // Default constructor สำหรับ Firebase
+    }
+
+    public Question(String questionText, List<String> options) {
         this.questionText = questionText;
         this.options = options;
     }
-
-    // Default constructor สำหรับ Firebase
-    public Question() {}
 
     public String getQuestionText() {
         return questionText;
     }
 
-    public String[] getOptions() {
+    public List<String> getOptions() {
         return options;
     }
 }

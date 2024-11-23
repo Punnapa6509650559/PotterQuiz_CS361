@@ -9,10 +9,6 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -38,7 +34,7 @@ public class QuizActivity extends AppCompatActivity {
     private int hufflepuffScore = 0;
     private int slytherinScore = 0;
 
-    private DatabaseReference databaseReference; // อ้างอิง Firebase
+    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,39 +45,27 @@ public class QuizActivity extends AppCompatActivity {
         radioGroup = findViewById(R.id.radioGroup);
         Button nextButton = findViewById(R.id.nextButton);
 
-        // รับประเภทเกมจาก Intent
         Intent intent = getIntent();
         gameType = intent.getStringExtra("GAME_TYPE");
 
-        // อ้างอิง Firebase Database
-        databaseReference = FirebaseDatabase.getInstance().getReference("quizzes").child(gameType).child("questions");
+        // เพิ่มการตั้งค่าภูมิภาค Firebase Realtime Database
+        databaseReference = FirebaseDatabase.getInstance("https://harryquiz-c1143-default-rtdb.asia-southeast1.firebasedatabase.app")
+                .getReference("quizzes")
+                .child(gameType)
+                .child("questions");
 
-        // ดึงข้อมูลคำถามจาก Firebase
         fetchQuestionsFromFirebase();
 
         nextButton.setOnClickListener(v -> {
-            saveUserAnswer();
-            int selectedOption = userAnswers[currentQuestionIndex];
+            if (!saveUserAnswer()) {
+                return; // หยุดการทำงานถ้าไม่มีการเลือกคำตอบ
+            }
 
             if ("HARRY_POTTER".equals(gameType)) {
-                switch (selectedOption) {
-                    case 0:
-                        gryffindorScore++;
-                        break;
-                    case 1:
-                        ravenclawScore++;
-                        break;
-                    case 2:
-                        hufflepuffScore++;
-                        break;
-                    case 3:
-                        slytherinScore++;
-                        break;
-                }
+                calculateHouseScore(userAnswers[currentQuestionIndex]);
             }
 
             currentQuestionIndex++;
-
             if (currentQuestionIndex < questionList.size()) {
                 displayQuestion();
             } else {
@@ -91,60 +75,91 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void fetchQuestionsFromFirebase() {
-        // ใช้ ExecutorService เพื่อรันใน Background Thread
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.execute(() -> {
-            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    List<Question> tempList = new ArrayList<>();
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                questionList.clear(); // เคลียร์ข้อมูลเก่า
+
+                // ตรวจสอบว่า dataSnapshot มีข้อมูล
+                if (dataSnapshot.exists()) {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        Question question = snapshot.getValue(Question.class);
-                        if (question != null) {
-                            tempList.add(question);
+                        String questionText = snapshot.child("questionText").getValue(String.class);
+                        List<String> options = new ArrayList<>();
+                        for (DataSnapshot optionSnapshot : snapshot.child("options").getChildren()) {
+                            String option = optionSnapshot.getValue(String.class);
+                            if (option != null) {  // ตรวจสอบว่า option ไม่เป็น null
+                                options.add(option);
+                            }
+                        }
+
+                        // ตรวจสอบว่ามีคำถามและตัวเลือกที่ไม่เป็น null
+                        if (questionText != null && !options.isEmpty()) {
+                            questionList.add(new Question(questionText, options));
                         }
                     }
 
-                    runOnUiThread(() -> {
-                        questionList.clear();
-                        questionList.addAll(tempList);
+                    if (questionList.isEmpty()) {
+                        Toast.makeText(QuizActivity.this, "No questions available.", Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else {
                         userAnswers = new int[questionList.size()];
                         displayQuestion();
-                    });
-
-                    Log.d("QuizActivity", "Questions loaded: " + questionList.size());
+                        Log.d("QuizActivity", "Questions loaded: " + questionList.size());
+                    }
+                } else {
+                    Toast.makeText(QuizActivity.this, "No data found in Firebase.", Toast.LENGTH_SHORT).show();
+                    finish();
                 }
+            }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                    runOnUiThread(() -> {
-                        Toast.makeText(QuizActivity.this, "Failed to load questions.", Toast.LENGTH_SHORT).show();
-                    });
-                    Log.e("QuizActivity", "Error fetching questions", databaseError.toException());
-                }
-            });
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(QuizActivity.this, "Failed to load questions.", Toast.LENGTH_SHORT).show();
+                Log.e("QuizActivity", "Error fetching questions", databaseError.toException());
+                finish();
+            }
         });
     }
-
 
     private void displayQuestion() {
         Question question = questionList.get(currentQuestionIndex);
         questionTextView.setText(question.getQuestionText());
-        String[] options = question.getOptions();
 
-        radioGroup.removeAllViews();
-        for (int i = 0; i < options.length; i++) {
+        radioGroup.removeAllViews(); // ล้าง RadioGroup ก่อนแสดงคำถามใหม่
+        for (int i = 0; i < question.getOptions().size(); i++) {
             RadioButton radioButton = new RadioButton(this);
-            radioButton.setText(options[i]);
+            radioButton.setText(question.getOptions().get(i));
             radioButton.setId(i);
             radioGroup.addView(radioButton);
         }
-        radioGroup.clearCheck();
+        radioGroup.clearCheck(); // รีเซ็ตการเลือก
     }
 
-    private void saveUserAnswer() {
+    private boolean saveUserAnswer() {
         int selectedId = radioGroup.getCheckedRadioButtonId();
+        if (selectedId == -1) {
+            Toast.makeText(this, "Please select an answer.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
         userAnswers[currentQuestionIndex] = selectedId;
+        return true;
+    }
+
+    private void calculateHouseScore(int selectedOption) {
+        switch (selectedOption) {
+            case 0:
+                gryffindorScore++;
+                break;
+            case 1:
+                ravenclawScore++;
+                break;
+            case 2:
+                hufflepuffScore++;
+                break;
+            case 3:
+                slytherinScore++;
+                break;
+        }
     }
 
     private void showResult() {
@@ -157,7 +172,8 @@ public class QuizActivity extends AppCompatActivity {
             startActivity(resultIntent);
             finish();
         } else {
-            // เพิ่มเงื่อนไขสำหรับเกมอื่นๆ
+            Toast.makeText(this, "Game type not supported.", Toast.LENGTH_SHORT).show();
+            finish();
         }
     }
 }
