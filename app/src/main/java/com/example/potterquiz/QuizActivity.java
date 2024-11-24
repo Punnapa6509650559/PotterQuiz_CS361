@@ -234,7 +234,7 @@ public class QuizActivity extends AppCompatActivity {
             else if (maxScore == phoenixScore) resultPatronus = "Phoenix";
             else if (maxScore == tabbyCatScore) resultPatronus = "Tabby Cat";
             else if (maxScore == doeScore) resultPatronus = "Doe";
-            else if (maxScore == otterScore) resultPatronus = "Otter";
+            else resultPatronus = "Otter";
 
             // ส่งข้อมูลไปยัง ResultActivity
             Intent resultIntent = new Intent(QuizActivity.this, ResultActivity.class);
