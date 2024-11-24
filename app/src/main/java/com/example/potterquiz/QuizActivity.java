@@ -82,7 +82,7 @@ public class QuizActivity extends AppCompatActivity {
 
             if ("HARRY_POTTER".equals(gameType)) {
                 calculateHouseScore(userAnswers[currentQuestionIndex]);
-            }else if("CHARACTER".equals(gameType)) {
+            } else if ("CHARACTER".equals(gameType)) {
                 calculateCharacterScore(userAnswers[currentQuestionIndex]);
             }
 
@@ -219,6 +219,7 @@ public class QuizActivity extends AppCompatActivity {
             resultIntent.putExtra("ravenclawScore", ravenclawScore);
             resultIntent.putExtra("hufflepuffScore", hufflepuffScore);
             resultIntent.putExtra("slytherinScore", slytherinScore);
+            resultIntent.putExtra("GAME_TYPE", gameType);
             startActivity(resultIntent);
             finish();
         } else if ("PATRONUS".equals(gameType)) {
@@ -246,7 +247,7 @@ public class QuizActivity extends AppCompatActivity {
             resultIntent.putExtra("GAME_TYPE", gameType);
             startActivity(resultIntent);
             finish();
-        }else if ("CHARACTER".equals(gameType)) {
+        } else if ("CHARACTER".equals(gameType)) {
             int maxScore = Math.max(Math.max(harry, hermione), Math.max(ron, draco));
             maxScore = Math.max(maxScore, Math.max(voldemort, Math.max(snape, Math.max(dumbledore, Math.max(ginny, dobby)))));
 
@@ -255,30 +256,6 @@ public class QuizActivity extends AppCompatActivity {
             else if (maxScore == hermione) resultCharacter = "Hermione Granger";
             else if (maxScore == ron) resultCharacter = "Ron Weasley";
             else if (maxScore == draco) resultCharacter = "Draco Malfoy";
-            else if (maxScore == voldemort) resultCharacter = "Lord Voldemort";
-            else if (maxScore == snape) resultCharacter = "Severus Snape";
-            else if (maxScore == dumbledore) resultCharacter = "Albus Dumbledore";
-            else if (maxScore == ginny) resultCharacter = "Ginny Weasley";
-            else if (maxScore == dobby) resultCharacter = "Dobby";
-
-            Intent resultIntent = new Intent(QuizActivity.this, ResultActivity.class);
-            resultIntent.putExtra("harryScore", harry);
-            resultIntent.putExtra("hermioneScore", hermione);
-            resultIntent.putExtra("ronScore", ron);
-            resultIntent.putExtra("dracoScore", draco);
-            resultIntent.putExtra("voldemortScore", voldemort);
-            resultIntent.putExtra("snapeScore", snape);
-            resultIntent.putExtra("dumbledoreScore", dumbledore);
-            resultIntent.putExtra("ginnyScore", ginny);
-            resultIntent.putExtra("dobbyScore", dobby);
-            resultIntent.putExtra("characterResult", resultCharacter);
-            resultIntent.putExtra("GAME_TYPE", gameType);
-            startActivity(resultIntent);
-            finish();
-
-        } else {
-            Toast.makeText(this, "Game type not supported.", Toast.LENGTH_SHORT).show();
-            finish();
         }
     }
 }
