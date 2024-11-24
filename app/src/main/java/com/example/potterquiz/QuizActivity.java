@@ -19,6 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class QuizActivity extends AppCompatActivity {
@@ -48,7 +49,7 @@ public class QuizActivity extends AppCompatActivity {
         Intent intent = getIntent();
         gameType = intent.getStringExtra("GAME_TYPE");
 
-        // เพิ่มการตั้งค่าภูมิภาค Firebase Realtime Database
+        // ตั้งค่า Firebase Database
         databaseReference = FirebaseDatabase.getInstance("https://harryquiz-c1143-default-rtdb.asia-southeast1.firebasedatabase.app")
                 .getReference("quizzes")
                 .child(gameType)
@@ -58,7 +59,7 @@ public class QuizActivity extends AppCompatActivity {
 
         nextButton.setOnClickListener(v -> {
             if (!saveUserAnswer()) {
-                return; // หยุดการทำงานถ้าไม่มีการเลือกคำตอบ
+                return; // หยุดถ้าผู้ใช้ยังไม่ได้เลือกคำตอบ
             }
 
             if ("HARRY_POTTER".equals(gameType)) {
@@ -78,21 +79,19 @@ public class QuizActivity extends AppCompatActivity {
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                questionList.clear(); // เคลียร์ข้อมูลเก่า
+                questionList.clear();
 
-                // ตรวจสอบว่า dataSnapshot มีข้อมูล
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         String questionText = snapshot.child("questionText").getValue(String.class);
                         List<String> options = new ArrayList<>();
                         for (DataSnapshot optionSnapshot : snapshot.child("options").getChildren()) {
                             String option = optionSnapshot.getValue(String.class);
-                            if (option != null) {  // ตรวจสอบว่า option ไม่เป็น null
+                            if (option != null) {
                                 options.add(option);
                             }
                         }
 
-                        // ตรวจสอบว่ามีคำถามและตัวเลือกที่ไม่เป็น null
                         if (questionText != null && !options.isEmpty()) {
                             questionList.add(new Question(questionText, options));
                         }
@@ -102,6 +101,13 @@ public class QuizActivity extends AppCompatActivity {
                         Toast.makeText(QuizActivity.this, "No questions available.", Toast.LENGTH_SHORT).show();
                         finish();
                     } else {
+                        // สุ่มคำถาม
+                        Collections.shuffle(questionList);
+
+                        // จำกัดจำนวนคำถามที่จะใช้ในเกม (ตัวอย่าง 5 คำถาม)
+                        int numberOfQuestions = Math.min(5, questionList.size());
+                        questionList = questionList.subList(0, numberOfQuestions);
+
                         userAnswers = new int[questionList.size()];
                         displayQuestion();
                         Log.d("QuizActivity", "Questions loaded: " + questionList.size());
@@ -125,14 +131,14 @@ public class QuizActivity extends AppCompatActivity {
         Question question = questionList.get(currentQuestionIndex);
         questionTextView.setText(question.getQuestionText());
 
-        radioGroup.removeAllViews(); // ล้าง RadioGroup ก่อนแสดงคำถามใหม่
+        radioGroup.removeAllViews(); // ล้างตัวเลือกก่อนแสดงคำถามใหม่
         for (int i = 0; i < question.getOptions().size(); i++) {
             RadioButton radioButton = new RadioButton(this);
             radioButton.setText(question.getOptions().get(i));
             radioButton.setId(i);
             radioGroup.addView(radioButton);
         }
-        radioGroup.clearCheck(); // รีเซ็ตการเลือก
+        radioGroup.clearCheck(); // รีเซ็ตการเลือกตัวเลือก
     }
 
     private boolean saveUserAnswer() {
