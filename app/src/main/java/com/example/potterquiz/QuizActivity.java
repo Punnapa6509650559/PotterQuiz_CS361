@@ -20,6 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 public class QuizActivity extends AppCompatActivity {
@@ -30,10 +31,27 @@ public class QuizActivity extends AppCompatActivity {
     private int currentQuestionIndex = 0;
     private int[] userAnswers;
     private String gameType;
+
     private int gryffindorScore = 0;
     private int ravenclawScore = 0;
     private int hufflepuffScore = 0;
     private int slytherinScore = 0;
+
+    private int harry = 0;
+    private int hermione = 0;
+    private int ron = 0;
+    private int draco = 0;
+    private int voldemort = 0;
+    private int snape = 0;
+    private int dumbledore = 0;
+    private int ginny = 0;
+    private int dobby = 0;
+
+    private int phoenixScore = 0;
+    private int tabbyCatScore = 0;
+    private int doeScore = 0;
+    private int stagScore = 0;
+    private int otterScore = 0;
 
     private DatabaseReference databaseReference;
 
@@ -64,6 +82,8 @@ public class QuizActivity extends AppCompatActivity {
 
             if ("HARRY_POTTER".equals(gameType)) {
                 calculateHouseScore(userAnswers[currentQuestionIndex]);
+            }else if("CHARACTER".equals(gameType)) {
+                calculateCharacterScore(userAnswers[currentQuestionIndex]);
             }
 
             currentQuestionIndex++;
@@ -168,6 +188,30 @@ public class QuizActivity extends AppCompatActivity {
         }
     }
 
+    private void calculateCharacterScore(int selectedOption) {
+        // คำนวณคะแนนตามตัวเลือกสำหรับตัวละครแต่ละคน
+        switch (selectedOption) {
+            case 0: // ตัวเลือกที่ 1
+                harry += 2;
+                dumbledore += 2;
+                ginny += 1;
+                break;
+            case 1: // ตัวเลือกที่ 2
+                hermione += 2;
+                snape += 1;
+                voldemort += 1;
+                break;
+            case 2: // ตัวเลือกที่ 3
+                ron += 2;
+                dobby += 1;
+                break;
+            case 3: // ตัวเลือกที่ 4
+                draco += 2;
+                voldemort += 2;
+                break;
+        }
+    }
+
     private void showResult() {
         if ("HARRY_POTTER".equals(gameType)) {
             Intent resultIntent = new Intent(QuizActivity.this, ResultActivity.class);
@@ -177,6 +221,61 @@ public class QuizActivity extends AppCompatActivity {
             resultIntent.putExtra("slytherinScore", slytherinScore);
             startActivity(resultIntent);
             finish();
+        } else if ("PATRONUS".equals(gameType)) {
+            // หาคะแนนสูงสุด
+            int maxScore = Math.max(
+                    Math.max(stagScore, phoenixScore),
+                    Math.max(Math.max(tabbyCatScore, doeScore), otterScore)
+            );
+
+            String resultPatronus = "";
+            if (maxScore == stagScore) resultPatronus = "Stag";
+            else if (maxScore == phoenixScore) resultPatronus = "Phoenix";
+            else if (maxScore == tabbyCatScore) resultPatronus = "Tabby Cat";
+            else if (maxScore == doeScore) resultPatronus = "Doe";
+            else if (maxScore == otterScore) resultPatronus = "Otter";
+
+            // ส่งข้อมูลไปยัง ResultActivity
+            Intent resultIntent = new Intent(QuizActivity.this, ResultActivity.class);
+            resultIntent.putExtra("stagScore", stagScore);
+            resultIntent.putExtra("phoenixScore", phoenixScore);
+            resultIntent.putExtra("tabbyCatScore", tabbyCatScore);
+            resultIntent.putExtra("doeScore", doeScore);
+            resultIntent.putExtra("otterScore", otterScore);
+            resultIntent.putExtra("patronusResult", resultPatronus);
+            resultIntent.putExtra("GAME_TYPE", gameType);
+            startActivity(resultIntent);
+            finish();
+        }else if ("CHARACTER".equals(gameType)) {
+            int maxScore = Math.max(Math.max(harry, hermione), Math.max(ron, draco));
+            maxScore = Math.max(maxScore, Math.max(voldemort, Math.max(snape, Math.max(dumbledore, Math.max(ginny, dobby)))));
+
+            String resultCharacter = "";
+            if (maxScore == harry) resultCharacter = "Harry Potter";
+            else if (maxScore == hermione) resultCharacter = "Hermione Granger";
+            else if (maxScore == ron) resultCharacter = "Ron Weasley";
+            else if (maxScore == draco) resultCharacter = "Draco Malfoy";
+            else if (maxScore == voldemort) resultCharacter = "Lord Voldemort";
+            else if (maxScore == snape) resultCharacter = "Severus Snape";
+            else if (maxScore == dumbledore) resultCharacter = "Albus Dumbledore";
+            else if (maxScore == ginny) resultCharacter = "Ginny Weasley";
+            else if (maxScore == dobby) resultCharacter = "Dobby";
+
+            Intent resultIntent = new Intent(QuizActivity.this, ResultActivity.class);
+            resultIntent.putExtra("harryScore", harry);
+            resultIntent.putExtra("hermioneScore", hermione);
+            resultIntent.putExtra("ronScore", ron);
+            resultIntent.putExtra("dracoScore", draco);
+            resultIntent.putExtra("voldemortScore", voldemort);
+            resultIntent.putExtra("snapeScore", snape);
+            resultIntent.putExtra("dumbledoreScore", dumbledore);
+            resultIntent.putExtra("ginnyScore", ginny);
+            resultIntent.putExtra("dobbyScore", dobby);
+            resultIntent.putExtra("characterResult", resultCharacter);
+            resultIntent.putExtra("GAME_TYPE", gameType);
+            startActivity(resultIntent);
+            finish();
+
         } else {
             Toast.makeText(this, "Game type not supported.", Toast.LENGTH_SHORT).show();
             finish();
