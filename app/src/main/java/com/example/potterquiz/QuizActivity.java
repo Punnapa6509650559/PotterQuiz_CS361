@@ -19,7 +19,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+<<<<<<< HEAD
 import java.util.Collections;
+=======
+>>>>>>> UI
 import java.util.List;
 
 public class QuizActivity extends AppCompatActivity {
@@ -35,7 +38,11 @@ public class QuizActivity extends AppCompatActivity {
     private int hufflepuffScore = 0;
     private int slytherinScore = 0;
 
+<<<<<<< HEAD
     private DatabaseReference databaseReference;
+=======
+    private DatabaseReference databaseReference; // อ้างอิง Firebase
+>>>>>>> UI
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +53,7 @@ public class QuizActivity extends AppCompatActivity {
         radioGroup = findViewById(R.id.radioGroup);
         Button nextButton = findViewById(R.id.nextButton);
 
+<<<<<<< HEAD
         Intent intent = getIntent();
         gameType = intent.getStringExtra("GAME_TYPE");
 
@@ -67,6 +75,41 @@ public class QuizActivity extends AppCompatActivity {
             }
 
             currentQuestionIndex++;
+=======
+        // รับประเภทเกมจาก Intent
+        Intent intent = getIntent();
+        gameType = intent.getStringExtra("GAME_TYPE");
+
+        // อ้างอิง Firebase Database
+        databaseReference = FirebaseDatabase.getInstance().getReference("questions").child(gameType);
+
+        // ดึงข้อมูลคำถามจาก Firebase
+        fetchQuestionsFromFirebase();
+
+        nextButton.setOnClickListener(v -> {
+            saveUserAnswer();
+            int selectedOption = userAnswers[currentQuestionIndex];
+
+            if ("HARRY_POTTER".equals(gameType)) {
+                switch (selectedOption) {
+                    case 0:
+                        gryffindorScore++;
+                        break;
+                    case 1:
+                        ravenclawScore++;
+                        break;
+                    case 2:
+                        hufflepuffScore++;
+                        break;
+                    case 3:
+                        slytherinScore++;
+                        break;
+                }
+            }
+
+            currentQuestionIndex++;
+
+>>>>>>> UI
             if (currentQuestionIndex < questionList.size()) {
                 displayQuestion();
             } else {
@@ -79,6 +122,7 @@ public class QuizActivity extends AppCompatActivity {
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+<<<<<<< HEAD
                 questionList.clear();
 
                 if (dataSnapshot.exists()) {
@@ -116,13 +160,24 @@ public class QuizActivity extends AppCompatActivity {
                     Toast.makeText(QuizActivity.this, "No data found in Firebase.", Toast.LENGTH_SHORT).show();
                     finish();
                 }
+=======
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Question question = snapshot.getValue(Question.class);
+                    questionList.add(question);
+                }
+                userAnswers = new int[questionList.size()]; // เตรียมอาร์เรย์เก็บคำตอบ
+                displayQuestion(); // แสดงคำถามแรก
+>>>>>>> UI
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(QuizActivity.this, "Failed to load questions.", Toast.LENGTH_SHORT).show();
                 Log.e("QuizActivity", "Error fetching questions", databaseError.toException());
+<<<<<<< HEAD
                 finish();
+=======
+>>>>>>> UI
             }
         });
     }
@@ -130,6 +185,7 @@ public class QuizActivity extends AppCompatActivity {
     private void displayQuestion() {
         Question question = questionList.get(currentQuestionIndex);
         questionTextView.setText(question.getQuestionText());
+<<<<<<< HEAD
 
         radioGroup.removeAllViews(); // ล้างตัวเลือกก่อนแสดงคำถามใหม่
         for (int i = 0; i < question.getOptions().size(); i++) {
@@ -166,6 +222,23 @@ public class QuizActivity extends AppCompatActivity {
                 slytherinScore++;
                 break;
         }
+=======
+        String[] options = question.getOptions();
+
+        radioGroup.removeAllViews();
+        for (int i = 0; i < options.length; i++) {
+            RadioButton radioButton = new RadioButton(this);
+            radioButton.setText(options[i]);
+            radioButton.setId(i);
+            radioGroup.addView(radioButton);
+        }
+        radioGroup.clearCheck();
+    }
+
+    private void saveUserAnswer() {
+        int selectedId = radioGroup.getCheckedRadioButtonId();
+        userAnswers[currentQuestionIndex] = selectedId;
+>>>>>>> UI
     }
 
     private void showResult() {
@@ -178,8 +251,12 @@ public class QuizActivity extends AppCompatActivity {
             startActivity(resultIntent);
             finish();
         } else {
+<<<<<<< HEAD
             Toast.makeText(this, "Game type not supported.", Toast.LENGTH_SHORT).show();
             finish();
+=======
+            // เพิ่มเงื่อนไขสำหรับเกมอื่นๆ
+>>>>>>> UI
         }
     }
 }

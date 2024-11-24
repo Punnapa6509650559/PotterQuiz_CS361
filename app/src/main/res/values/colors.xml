@@ -4,4 +4,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="button_color">#375258</color>
     <color name="button_text_color">#FFFFFFFF</color>
+<<<<<<< HEAD
+=======
+    <color name="ic_launcher_background">#FFFFFF</color>
+>>>>>>> UI
 </resources>

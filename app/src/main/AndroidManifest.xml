@@ -6,19 +6,29 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
+<<<<<<< HEAD
         android:icon="@drawable/ic_launcher_background"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
+=======
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:label="@string/app_name"
+>>>>>>> UI
         android:supportsRtl="true"
         android:theme="@style/Theme.Potterquiz"
         tools:targetApi="31">
 
+<<<<<<< HEAD
         <!-- ประกาศ QuizSelectionActivity ซึ่งเป็นหน้าหลัก -->
         <activity
             android:name=".QuizSelectionActivity"
             android:exported="true" />
 
         <!-- ประกาศ MainActivity ที่เป็น entry point -->
+=======
+        <!-- MainActivity (entry point) -->
+>>>>>>> UI
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -28,16 +38,32 @@
             </intent-filter>
         </activity>
 
+<<<<<<< HEAD
         <!-- ประกาศ QuizActivity -->
+=======
+        <!-- QuizSelectionActivity -->
+        <activity
+            android:name=".QuizSelectionActivity"
+            android:exported="true" />
+
+        <!-- QuizActivity -->
+>>>>>>> UI
         <activity
             android:name=".QuizActivity"
             android:exported="true" />
 
+<<<<<<< HEAD
         <!-- ประกาศ ResultActivity -->
         <activity
             android:name=".ResultActivity"
             android:exported="true" />
 
+=======
+        <!-- ResultActivity -->
+        <activity
+            android:name=".ResultActivity"
+            android:exported="true" />
+>>>>>>> UI
     </application>
 
 </manifest>

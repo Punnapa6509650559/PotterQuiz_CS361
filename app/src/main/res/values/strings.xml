@@ -3,4 +3,8 @@
     <string name="question_text">คำถาม</string>
     <string name="next_button_text">ถัดไป</string>
     <string name="finish_button_text">เสร็จสิ้น</string>
+<<<<<<< HEAD
+=======
+    <string name="back_button_text">ย้อนกลับ</string>
+>>>>>>> UI
 </resources>

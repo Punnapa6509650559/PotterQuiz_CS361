@@ -2,22 +2,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+<<<<<<< HEAD
     android:padding="16dp">
+=======
+    android:padding="16dp"
+    android:background="@drawable/bg_quiz3">
+>>>>>>> UI
 
     <TextView
         android:id="@+id/questionTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+<<<<<<< HEAD
         android:textSize="18sp"
         android:text="@string/question_text"
         android:paddingBottom="16dp" />
+=======
+        android:textSize="22sp"
+        android:text="@string/question_text"
+        android:fontFamily="@font/baijamjuree_bold"
+        android:textColor="#000000"
+        android:paddingBottom="16dp"
+        android:layout_marginTop="48dp" />
+>>>>>>> UI
 
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+<<<<<<< HEAD
         android:layout_below="@id/questionTextView"
         android:layout_marginTop="8dp"/>
+=======
+        android:layout_marginTop="8dp" />
+>>>>>>> UI
 
     <RadioGroup
         android:id="@+id/radioGroup"
@@ -28,24 +46,37 @@
             android:id="@+id/option1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+<<<<<<< HEAD
+=======
+            android:fontFamily="@font/baijamjuree_regular"
+>>>>>>> UI
             android:text="ตัวเลือก 1" />
 
         <RadioButton
             android:id="@+id/option2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+<<<<<<< HEAD
+=======
+            android:fontFamily="@font/baijamjuree_regular"
+>>>>>>> UI
             android:text="ตัวเลือก 2" />
 
         <RadioButton
             android:id="@+id/option3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+<<<<<<< HEAD
+=======
+            android:fontFamily="@font/baijamjuree_regular"
+>>>>>>> UI
             android:text="ตัวเลือก 3" />
 
         <RadioButton
             android:id="@+id/option4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+<<<<<<< HEAD
             android:text="ตัวเลือก 4" />
     </RadioGroup>
 
@@ -55,13 +86,61 @@
         android:layout_height="wrap_content"
         android:text="@string/next_button_text"
     android:layout_marginTop="16dp" />
+=======
+            android:fontFamily="@font/baijamjuree_regular"
+            android:text="ตัวเลือก 4" />
+    </RadioGroup>
+
+    <!-- LinearLayout แนวนอนสำหรับปุ่ม "Back" และ "Next" -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="36dp"
+        android:weightSum="1">
+
+        <!-- ปุ่ม "Back" -->
+        <Button
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/back_button_text"
+            android:fontFamily="@font/baijamjuree_regular"
+            android:backgroundTint="#65FFFFFF"
+            android:textColor="#000000"
+            android:layout_marginEnd="168dp"
+            android:gravity="center" /> <!-- จัดตัวอักษรให้ตรงกลางปุ่ม -->
+
+        <!-- ปุ่ม "Next" -->
+        <Button
+            android:id="@+id/nextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/baijamjuree_regular"
+            android:backgroundTint="#65FFFFFF"
+            android:textColor="#000000"
+            android:text="@string/next_button_text"
+            android:gravity="center" /> <!-- จัดตัวอักษรให้ตรงกลางปุ่ม -->
+    </LinearLayout>
+>>>>>>> UI
 
     <Button
         android:id="@+id/finishQuizButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+<<<<<<< HEAD
         android:text="@string/finish_button_text"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:visibility="gone"/>
+=======
+        android:fontFamily="@font/baijamjuree_regular"
+        android:backgroundTint="#65FFFFFF"
+        android:textColor="#000000"
+        android:text="@string/finish_button_text"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone" />
+>>>>>>> UI
 </LinearLayout>
