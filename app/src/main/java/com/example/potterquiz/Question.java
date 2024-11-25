@@ -1,26 +1,29 @@
 package com.example.potterquiz;
 
+import java.util.List;
+
 public class Question {
     private String questionText;
-    private String[] options;
-    private int correctAnswerIndex;
+    private List<String> options;
 
-    public Question(String questionText, String[] options, int correctAnswerIndex) {
+    public Question(String questionText, List<String> options) {
         this.questionText = questionText;
         this.options = options;
-        this.correctAnswerIndex = correctAnswerIndex;
     }
 
     public String getQuestionText() {
         return questionText;
     }
 
-    public String[] getOptions() {
+    public void setQuestionText(String questionText) {
+        this.questionText = questionText;
+    }
+
+    public List<String> getOptions() {
         return options;
     }
 
-    public int getCorrectAnswerIndex() {
-        return correctAnswerIndex;
+    public void setOptions(List<String> options) {
+        this.options = options;
     }
-
 }

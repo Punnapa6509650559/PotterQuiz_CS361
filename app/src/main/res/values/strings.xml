@@ -1,7 +1,41 @@
 <resources>
     <string name="app_name">Potter Quiz</string>
-    <string name="question_text">คำถาม</string>
-    <string name="next_button_text">ถัดไป</string>
-    <string name="finish_button_text">เสร็จสิ้น</string>
-    <string name="back_button_text">ย้อนกลับ</string>
+    <string name="question_text">Question</string>
+    <string name="next_button_text">Next</string>
+    <string name="finish_button_text">Finish</string>
+    <string name="back_button_text">Back</string>
+    <string name="again">Try Again</string>
+    <string name="question">Question</string>
+    <string name="hogwart_houses">Hogwart Houses</string>
+    <string name="patronus_charm">Patronus Charm</string>
+    <string name="character">Character</string>
+    <string name="choice1">Choice 1</string>
+    <string name="choice2">Choice 2</string>
+    <string name="choice3">Choice 3</string>
+    <string name="choice4">Choice 4</string>
+    <string name="start">Let\'s Start</string>
+    <string name="potter_quiz">Potter Quiz</string>
+    <string name="house_result">Your house is: %1$s</string>
+    <string name="character_result">You are: %1$s</string>
+    <string name="patronus_result">Your Patronus is: %1$s</string>
+    <string name="select_answer">Please select an answer.</string>
+    <string name="gryffindor">Gryffindor</string>
+    <string name="ravenclaw">Ravenclaw</string>
+    <string name="hufflepuff">Hufflepuff</string>
+    <string name="slytherin">Slytherin</string>
+    <string name="harry_potter">Harry Potter</string>
+    <string name="hermione_granger">Hermione Granger</string>
+    <string name="ron_weasley">Ron Weasley</string>
+    <string name="draco_malfoy">Draco Malfoy</string>
+    <string name="lord_voldemort">Lord Voldemort</string>
+    <string name="severus_snape">Severus Snape</string>
+    <string name="albus_dumbledore">Albus Dumbledore</string>
+    <string name="ginny_weasley">Ginny Weasley</string>
+    <string name="dobby">Dobby</string>
+    <string name="stag">Stag</string>
+    <string name="phoenix">Phoenix</string>
+    <string name="tabby_cat">Tabby Cat</string>
+    <string name="doe">Doe</string>
+    <string name="otter">Otter</string>
+
 </resources>
