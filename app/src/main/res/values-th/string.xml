@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">Potter Quiz</string>
+    <string name="question_text">คำถาม</string>
+    <string name="next_button_text">ถัดไป</string>
+    <string name="finish_button_text">เสร็จสิ้น</string>
+    <string name="again">ลองอีกครั้ง</string>
+    <string name="house_result">บ้านของคุณคือ: %1$s</string>
+    <string name="character_result">คุณคือ: %1$s</string>
+    <string name="patronus_result">ผู้พิทักษ์ของคุณคือ: %1$s</string>
+    <string name="question">คำถาม</string>
+    <string name="hogwart_houses">บ้านฮอกวอร์ต</string>
+    <string name="patronus_charm">คาถาผู้พิทักษ์</string>
+    <string name="character">ตัวละคร</string>
+    <string name="choice1">ตัวเลือก 1</string>
+    <string name="choice2">ตัวเลือก 2</string>
+    <string name="choice3">ตัวเลือก 3</string>
+    <string name="choice4">ตัวเลือก 4</string>
+    <string name="start">เริ่มต้น</string>
+    <string name="potter_quiz">Potter Quiz</string>
+    <string name="select_answer">กรุณาเลือกคำตอบ</string>
+    <string name="gryffindor">กริฟฟินดอร์</string>
+    <string name="ravenclaw">เรเวนคลอ</string>
+    <string name="hufflepuff">ฮัฟเฟิลพัฟ</string>
+    <string name="slytherin">สลิธีริน</string>
+    <string name="harry_potter">แฮร์รี่ พอตเตอร์</string>
+    <string name="hermione_granger">เฮอร์ไมโอนี่ เกรนเจอร์</string>
+    <string name="ron_weasley">รอน วีสลีย์</string>
+    <string name="draco_malfoy">เดรโก มัลฟอย</string>
+    <string name="lord_voldemort">ลอร์ดโวลเดอมอร์</string>
+    <string name="severus_snape">เซเวอรัส สเนป</string>
+    <string name="albus_dumbledore">อัลบัส ดัมเบิลดอร์</string>
+    <string name="ginny_weasley">จินนี่ วีสลีย์</string>
+    <string name="dobby">ด็อบบี้</string>
+    <string name="stag">กวางตัวผู้</string>
+    <string name="phoenix">นกฟีนิกซ์</string>
+    <string name="tabby_cat">แมวแท็บบี้</string>
+    <string name="doe">กวางตัวเมีย</string>
+    <string name="otter">ตัวนาก</string>
+    <string name="back_button_text">ย้อนกลับ</string>
+    <string name="cannot_go_back">ไม่สามารถย้อนกลับไปได้</string>
+
+</resources>

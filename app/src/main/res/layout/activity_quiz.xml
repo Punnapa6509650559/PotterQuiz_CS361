@@ -1,0 +1,108 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/bg_quiz3">
+
+    <!-- คำถาม -->
+    <TextView
+        android:id="@+id/questionTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="22sp"
+        android:text="@string/question_text"
+        android:fontFamily="@font/baijamjuree_bold"
+        android:textColor="#000000"
+        android:paddingBottom="16dp"
+        android:layout_marginTop="48dp" />
+
+    <!-- Progress Bar -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp" />
+
+    <!-- กลุ่มคำตอบ -->
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/option1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/baijamjuree_regular"
+            android:text="@string/choice1" />
+
+        <RadioButton
+            android:id="@+id/option2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/baijamjuree_regular"
+            android:text="@string/choice2" />
+
+        <RadioButton
+            android:id="@+id/option3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/baijamjuree_regular"
+            android:text="@string/choice3" />
+
+        <RadioButton
+            android:id="@+id/option4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/baijamjuree_regular"
+            android:text="@string/choice4" />
+    </RadioGroup>
+
+    <!-- LinearLayout แนวนอนสำหรับปุ่ม -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="36dp"
+        android:weightSum="2">
+
+        <!-- ปุ่ม "ย้อนกลับ" -->
+        <Button
+            android:id="@+id/backButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/back_button_text"
+            android:fontFamily="@font/baijamjuree_regular"
+            android:backgroundTint="#65FFFFFF"
+            android:textColor="#000000"
+            android:layout_marginEnd="8dp"
+            android:gravity="center" />
+
+        <!-- ปุ่ม "ถัดไป" -->
+        <Button
+            android:id="@+id/nextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/baijamjuree_regular"
+            android:backgroundTint="#65FFFFFF"
+            android:textColor="#000000"
+            android:text="@string/next_button_text"
+            android:gravity="center" />
+    </LinearLayout>
+
+    <!-- ปุ่ม "จบควิซ" -->
+    <Button
+        android:id="@+id/finishQuizButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/baijamjuree_regular"
+        android:backgroundTint="#65FFFFFF"
+        android:textColor="#000000"
+        android:text="@string/finish_button_text"
+        android:visibility="gone"
+        android:layout_marginTop="16dp" />
+</LinearLayout>
